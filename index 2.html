@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Digital & AI Maturity Self-Assessment — Wealth Management</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"
+  onerror="var s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js';document.head.appendChild(s);"></script>
+<style>
+  :root{
+    --ink:#182531;
+    --ink-soft:#51606e;
+    --paper:#efe9da;
+    --panel:#f8f5ec;
+    --brass:#af8a46;
+    --brass-deep:#8a6a30;
+    --teal:#2f5d54;
+    --rule:#ddd5c0;
+    --good:#2f5d54;
+    --warn:#a13f2f;
+  }
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    margin:0; padding:0;
+    background:
+      radial-gradient(ellipse 900px 500px at 15% -10%, rgba(175,138,70,0.08), transparent 60%),
+      radial-gradient(ellipse 700px 500px at 100% 15%, rgba(47,93,84,0.05), transparent 60%),
+      var(--paper);
+    color:var(--ink);
+    font-family:'IBM Plex Sans',sans-serif;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.serif{ font-family:'Fraunces',serif; font-weight:500; letter-spacing:-.01em; }
+  .mono{ font-family:'IBM Plex Mono',monospace; }
+  .wrap{ max-width:1000px; margin:0 auto; padding:0 24px 96px; }
+
+  /* ================= HERO ================= */
+  .hero{
+    background:
+      radial-gradient(ellipse 600px 400px at 85% 0%, rgba(201,169,105,0.12), transparent 60%),
+      var(--ink);
+    color:var(--paper);
+    padding:56px 24px 48px;
+    margin-bottom:44px;
+    box-shadow:0 12px 32px -16px rgba(24,37,49,0.35);
+  }
+  .hero-inner{
+    max-width:1000px; margin:0 auto;
+    display:grid; grid-template-columns:1.25fr 220px; align-items:center; gap:32px;
+  }
+  @media (max-width:680px){ .hero-inner{ grid-template-columns:1fr; } .hero-motif{ display:none; } }
+  .hero .kicker{
+    font-size:13px; color:#c9a969; margin-bottom:10px; letter-spacing:.01em;
+  }
+  .hero h1{ font-size:36px; line-height:1.14; margin:0 0 14px; color:#faf7ee; }
+  .hero p{ margin:0; color:#aebac5; font-size:15.5px; max-width:56ch; }
+
+  .hero-motif svg{ width:100%; height:auto; }
+  .hero-motif .spoke{
+    stroke:#3d4e5e; stroke-width:1;
+  }
+  .hero-motif .ring{
+    fill:none; stroke:#3d4e5e; stroke-width:1;
+  }
+  .hero-motif .shape{
+    fill:rgba(175,138,70,0.16);
+    stroke:#c9a969;
+    stroke-width:1.6;
+    stroke-dasharray:340;
+    stroke-dashoffset:340;
+    animation:draw 1.4s ease-out forwards .15s;
+  }
+  .hero-motif .node{ fill:#c9a969; }
+  @keyframes draw{ to{ stroke-dashoffset:0; } }
+
+  /* ================= INTRO ================= */
+  .intro-grid{ display:grid; grid-template-columns:1fr 1.15fr; gap:44px; }
+  @media (max-width:700px){ .intro-grid{ grid-template-columns:1fr; } }
+  .intro-copy p{ color:var(--ink-soft); font-size:15.5px; }
+
+  .icon-badge{
+    flex:none; width:38px; height:38px; border-radius:50%;
+    background:rgba(175,138,70,0.14); color:var(--brass-deep);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .icon-badge svg{ width:19px; height:19px; }
+
+  .dim-list{ list-style:none; margin:0; padding:0; display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  @media (max-width:520px){ .dim-list{ grid-template-columns:1fr; } }
+  .dim-list li{
+    display:flex; align-items:flex-start; gap:13px;
+    padding:16px; background:var(--panel); border:1px solid var(--rule);
+    box-shadow:0 6px 16px -12px rgba(24,37,49,0.25);
+  }
+  .dim-list .txt-wrap{ min-width:0; }
+  .dim-list .txt{ font-size:13.5px; color:var(--ink); font-weight:500; display:block; margin-bottom:3px; }
+  .dim-list .tag{ font-family:'IBM Plex Mono',monospace; color:var(--brass-deep); font-size:11.5px; font-weight:600; }
+
+  .start-btn{
+    margin-top:26px;
+    background:var(--ink); color:var(--paper);
+    border:none; padding:15px 28px; border-radius:2px;
+    font-family:'IBM Plex Sans',sans-serif; font-size:15px; font-weight:500;
+    cursor:pointer; transition:background .15s ease, transform .1s ease, box-shadow .15s ease;
+    display:inline-flex; align-items:center; gap:10px;
+    box-shadow:0 6px 16px -8px rgba(24,37,49,0.5);
+  }
+  .start-btn:hover{ background:var(--brass-deep); transform:translateY(-1px); box-shadow:0 10px 20px -8px rgba(138,106,48,0.55); }
+  .start-btn svg{ width:16px; height:16px; }
+
+  /* ================= PROGRESS BAR ================= */
+  .progress-track{
+    height:3px; background:var(--rule); margin-bottom:30px; position:relative; overflow:hidden;
+  }
+  .progress-fill{
+    position:absolute; left:0; top:0; height:100%;
+    background:linear-gradient(90deg,var(--brass-deep),var(--brass));
+    transition:width .35s ease;
+  }
+
+  /* ================= QUIZ ================= */
+  .quiz-layout{ display:grid; grid-template-columns:230px 1fr; gap:44px; }
+  @media (max-width:700px){ .quiz-layout{ grid-template-columns:1fr; } }
+  .rail{ border-right:1px solid var(--rule); padding-right:24px; }
+  @media (max-width:700px){ .rail{ border-right:none; border-bottom:1px solid var(--rule); padding-right:0; padding-bottom:16px; } }
+  .rail .rail-item{
+    font-size:13.5px; padding:9px 0; color:#b3a98f;
+    display:flex; align-items:center; gap:10px;
+  }
+  .rail .rail-item .icon{ width:16px; height:16px; flex:none; }
+  .rail .rail-item.active{ color:var(--ink); font-weight:600; }
+  .rail .rail-item.done{ color:var(--ink-soft); }
+  .rail .rail-item.active .icon{ color:var(--brass-deep); }
+
+  .progress-line{ font-size:13px; color:var(--brass-deep); font-weight:600; margin-bottom:6px; }
+  .q-dim{ font-size:13px; color:var(--ink-soft); margin-bottom:12px; }
+  .q-prompt{ font-size:22px; margin:0 0 24px; max-width:52ch; }
+
+  .q-fade{ animation:fadeUp .32s ease; }
+  @keyframes fadeUp{ from{ opacity:0; transform:translateY(6px);} to{ opacity:1; transform:none; } }
+
+  .options{ display:flex; flex-direction:column; gap:10px; }
+  .option{
+    display:flex; align-items:flex-start; gap:16px;
+    padding:16px 18px; background:var(--panel); border:1px solid var(--rule);
+    cursor:pointer; position:relative; border-radius:3px;
+    border-left:3px solid transparent;
+    transition:border-color .15s ease, background .15s ease, box-shadow .15s ease, transform .1s ease;
+  }
+  .option:hover{ box-shadow:0 6px 16px -12px rgba(24,37,49,0.3); transform:translateY(-1px); }
+  .option.selected{
+    border-left-color:var(--brass-deep); background:#f3e9d6;
+    box-shadow:0 6px 18px -10px rgba(138,106,48,0.4);
+  }
+  .option input{ position:absolute; opacity:0; }
+  .option .opt-val{
+    font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:var(--brass-deep);
+    min-width:20px; height:20px; border:1px solid var(--brass); border-radius:50%;
+    display:flex; align-items:center; justify-content:center; margin-top:1px; flex:none;
+  }
+  .option.selected .opt-val{ background:var(--brass-deep); color:#fff; border-color:var(--brass-deep); }
+  .option .opt-text{ font-size:15px; color:var(--ink); }
+
+  .nav-row{ display:flex; justify-content:space-between; margin-top:30px; }
+  .nav-btn{
+    background:none; border:1px solid var(--ink); color:var(--ink);
+    padding:11px 24px; font-family:'IBM Plex Sans',sans-serif; font-size:14px;
+    cursor:pointer; transition:background .15s ease, color .15s ease, border-color .15s ease;
+  }
+  .nav-btn.primary{ background:var(--ink); color:var(--paper); }
+  .nav-btn:disabled{ opacity:.35; cursor:not-allowed; }
+  .nav-btn:not(:disabled):hover{ background:var(--brass-deep); border-color:var(--brass-deep); color:#fff; }
+
+  /* ================= RESULTS ================= */
+  .result-hero{
+    padding:32px 30px; margin-bottom:8px;
+    border-top:4px solid var(--brass-deep);
+    background:var(--panel);
+    box-shadow:0 10px 28px -18px rgba(24,37,49,0.4);
+  }
+  .result-hero.tier-low{ border-top-color:var(--warn); }
+  .result-hero.tier-high{ border-top-color:var(--good); }
+  .archetype-eyebrow{ font-size:13px; color:var(--brass-deep); font-weight:600; margin-bottom:8px; }
+  .tier-low .archetype-eyebrow{ color:var(--warn); }
+  .tier-high .archetype-eyebrow{ color:var(--good); }
+  .archetype-name{ font-size:31px; margin:0 0 14px; }
+  .archetype-diag{ color:var(--ink-soft); font-size:15.5px; max-width:68ch; margin:0; }
+
+  .lowest-line{ font-size:14.5px; color:var(--ink-soft); margin:22px 0 0; }
+  .lowest-line strong{ color:var(--ink); }
+
+  .results-grid{ display:grid; grid-template-columns:1fr 1fr; gap:44px; margin-top:30px; }
+  @media (max-width:760px){ .results-grid{ grid-template-columns:1fr; } }
+
+  .chart-box{ position:relative; width:100%; height:340px; }
+  .chart-box canvas{ position:absolute; inset:0; width:100% !important; height:100% !important; }
+  .chart-fallback{ font-size:13.5px; color:var(--warn); display:none; }
+
+  .score-table{ border-top:1px solid var(--rule); align-self:center; }
+  .score-row{
+    display:grid; grid-template-columns:32px 1fr 52px; align-items:center; gap:14px;
+    padding:13px 0; border-bottom:1px solid var(--rule);
+  }
+  .score-row .tag{ font-family:'IBM Plex Mono',monospace; color:var(--brass-deep); font-weight:600; font-size:13px; }
+  .score-row .label{ font-size:13.5px; color:var(--ink); }
+  .score-row .bar-track{ grid-column:1/-1; height:4px; background:var(--rule); margin-top:-9px; margin-bottom:3px; }
+  .score-row .bar-fill{ height:100%; background:var(--brass); transition:width .5s ease; }
+  .score-row .val{ font-family:'IBM Plex Mono',monospace; font-size:14px; text-align:right; }
+
+  .priority-panel{
+    background:var(--panel); border-left:3px solid var(--brass-deep);
+    padding:24px 26px; margin-top:36px;
+    box-shadow:0 8px 22px -16px rgba(24,37,49,0.3);
+  }
+  .priority-panel h3{ margin:0 0 10px; font-size:18px; }
+  .priority-panel p{ margin:0; color:var(--ink-soft); font-size:15px; }
+
+  .focus-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(260px,1fr)); gap:22px; margin-top:36px; }
+  @media (max-width:700px){ .focus-grid{ grid-template-columns:1fr; } }
+  .focus-card{ border-top:2px solid var(--warn); padding-top:15px; }
+  .focus-card .fc-tag{ font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:var(--warn); font-weight:600; }
+  .focus-card h4{ margin:9px 0 9px; font-size:16px; }
+  .focus-card p{ margin:0; font-size:14px; color:var(--ink-soft); }
+
+  .restart-row{ margin-top:46px; border-top:1px solid var(--rule); padding-top:26px; }
+
+  .hidden{ display:none !important; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="kicker">Digital &amp; AI Maturity Self-Assessment Tool</div>
+      <h1>Wealth Management &amp; Independent Broker-Dealers</h1>
+      <p>Calibrated against Raymond James Financial as an approximate Stage 3.2 median. Twenty questions across five capability dimensions, four per dimension, each scored 1 to 5.</p>
+    </div>
+    <div class="hero-motif">
+      <svg viewBox="0 0 200 200">
+        <circle class="ring" cx="100" cy="100" r="80"/>
+        <circle class="ring" cx="100" cy="100" r="50"/>
+        <line class="spoke" x1="100" y1="100" x2="100" y2="20"/>
+        <line class="spoke" x1="100" y1="100" x2="176" y2="72"/>
+        <line class="spoke" x1="100" y1="100" x2="148" y2="168"/>
+        <line class="spoke" x1="100" y1="100" x2="52" y2="168"/>
+        <line class="spoke" x1="100" y1="100" x2="24" y2="72"/>
+        <polygon class="shape" points="100,38 146,84 128,148 72,148 54,84"/>
+        <circle class="node" cx="100" cy="38" r="4"/>
+        <circle class="node" cx="146" cy="84" r="4"/>
+        <circle class="node" cx="128" cy="148" r="4"/>
+        <circle class="node" cx="72" cy="148" r="4"/>
+        <circle class="node" cx="54" cy="84" r="4"/>
+      </svg>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- ===================== INTRO SCREEN ===================== -->
+  <section id="screen-intro">
+    <div class="intro-grid">
+      <div class="intro-copy">
+        <p>This tool profiles a firm's operating maturity across five interdependent dimensions of the wealth management business. Scores aren't meant to be read in isolation — the pattern across dimensions determines the diagnosis, because a strong score in one area paired with a weak score in another often reveals a specific structural risk rather than balanced progress.</p>
+        <p>Answer each question with the option that best matches the firm's current operating state, not its stated ambition. Takes about five minutes.</p>
+        <button class="start-btn" id="btn-start">
+          Begin assessment
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </button>
+      </div>
+      <ul class="dim-list" id="intro-dim-list"></ul>
+    </div>
+  </section>
+
+  <!-- ===================== QUESTION SCREEN ===================== -->
+  <section id="screen-quiz" class="hidden">
+    <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+    <div class="quiz-layout">
+      <div class="rail" id="quiz-rail"></div>
+      <div>
+        <div class="progress-line" id="q-progress"></div>
+        <div class="q-dim" id="q-dim-label"></div>
+        <h2 class="q-prompt" id="q-prompt"></h2>
+        <div class="options" id="q-options"></div>
+        <div class="nav-row">
+          <button class="nav-btn" id="btn-back">Back</button>
+          <button class="nav-btn primary" id="btn-next" disabled>Next</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== RESULTS SCREEN ===================== -->
+  <section id="screen-results" class="hidden">
+    <div class="result-hero" id="result-hero">
+      <div class="archetype-eyebrow" id="res-eyebrow">Score pattern</div>
+      <h2 class="archetype-name" id="res-name"></h2>
+      <p class="archetype-diag" id="res-diagnosis"></p>
+      <p class="lowest-line" id="res-lowest-line"></p>
+    </div>
+
+    <div class="results-grid">
+      <div class="chart-box">
+        <canvas id="radarChart"></canvas>
+        <p class="chart-fallback" id="chart-fallback">Radar chart couldn't load — this page needs network access to cdnjs.cloudflare.com to load Chart.js. The dimension scores are still shown in the table.</p>
+      </div>
+      <div class="score-table" id="score-table"></div>
+    </div>
+
+    <div class="priority-panel">
+      <h3 id="res-action-title">Priority action</h3>
+      <p id="res-action-body"></p>
+    </div>
+
+    <div class="focus-grid" id="focus-grid"></div>
+
+    <div class="restart-row">
+      <button class="nav-btn" id="btn-restart">Restart assessment</button>
+    </div>
+  </section>
+
+</div>
+
+<script>
+/* =========================================================================
+   ICONS — one minimal line-icon per dimension, reused in the intro list
+   and the quiz rail so the two stay visually linked.
+   ========================================================================= */
+const ICONS = {
+  D1: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="7" cy="7" r="3"/><circle cx="17" cy="7" r="3"/><circle cx="12" cy="17" r="3"/><path d="M9.5 8.8L12 14.3M14.5 8.8L12 14.3"/></svg>',
+  D2: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="11" height="8" rx="1"/><rect x="9" y="13" width="12" height="7" rx="1"/></svg>',
+  D3: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 12a8 8 0 0 1 13.5-5.8M20 12a8 8 0 0 1-13.5 5.8"/><path d="M17.5 3.5v3h-3M6.5 20.5v-3h3"/></svg>',
+  D4: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.8 2.8M15.2 15.2 18 18M18 6l-2.8 2.8M8.8 15.2 6 18"/></svg>',
+  D5: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3l7 3v5c0 4.5-3 7.7-7 9-4-1.3-7-4.5-7-9V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg>'
+};
+
+/* =========================================================================
+   DATA — Dimensions carry the Stage 1–5 descriptions from Member A's
+   framework (used to generate next-stage guidance for weak dimensions).
+   Questions are Member B's real 20-question set (4 per dimension).
+   ========================================================================= */
+
+const DIMENSIONS = [
+  {
+    id:'D1', name:'Custodial Data Architecture & Interoperability',
+    stages:{
+      1:'Client records and clearing data reside in fragmented on-premises silos and spreadsheets; reconciliation across custodians requires manual data entry.',
+      2:'Data is consolidated through nightly batch ETL into a legacy warehouse; transaction records lag by 24 hours with frequent manual reconciliation.',
+      3:'A centralized enterprise data layer connects core systems to primary custodians through standard APIs with standardized household schemas.',
+      4:'Real-time event-streaming pipelines synchronize trading and balances across systems with automated anomaly and validation alerting.',
+      5:'A cloud-native, zero-copy data mesh enables sub-second cross-custodial availability with self-healing pipeline integrity checks.'
+    }
+  },
+  {
+    id:'D2', name:'Omnichannel Client Acquisition & Onboarding',
+    stages:{
+      1:'Onboarding relies entirely on physical paperwork, manual KYC/AML verification, wet signatures, and static quarterly paper mailings.',
+      2:'Account opening uses basic digital forms and e-signatures, but staff must manually review submissions to remediate frequent NIGO errors.',
+      3:'End-to-end digital onboarding features biometric KYC/AML verification, automated account generation, and a secure client portal.',
+      4:'Clients move between mobile, web, and branch channels with synchronized sessions; drop-off and engagement are systematically tracked.',
+      5:'The client portal delivers hyper-personalized interfaces with conversational querying and predictive, automated goal-planning.'
+    }
+  },
+  {
+    id:'D3', name:'Automated Portfolio Engineering & Rebalancing',
+    stages:{
+      1:'Advisors manage portfolios on a discretionary basis using local spreadsheets and manual, ticket-by-ticket order entry.',
+      2:'Desktop rebalancing software generates trade lists on calendar intervals; approvals and routing require manual advisor intervention.',
+      3:'A centralized model management system monitors accounts against drift bands and routes batch trade files to clearing desks.',
+      4:'The platform executes automated tax-aware household rebalancing and direct indexing while tracking slippage and tax alpha.',
+      5:'Multi-factor algorithmic engines autonomously execute continuous intraday rebalancing and tax-loss harvesting.'
+    }
+  },
+  {
+    id:'D4', name:'Advisory AI, Copilots & Predictive Intelligence',
+    stages:{
+      1:'Advisors rely exclusively on static vendor reports and manual search; no predictive models are deployed, and public AI is unmonitored or banned.',
+      2:'Isolated pilots with LLM chat interfaces exist; advisors experiment with ad hoc drafting prompts without enterprise data grounding.',
+      3:'Governed copilots integrated into the CRM generate briefing sheets and draft meeting notes with mandatory human review.',
+      4:'ML models predict attrition and money-movement risk; production copilots use automated evaluation suites measuring accuracy.',
+      5:'Autonomous multi-agent systems run scenario modeling and draft personalized proposals with continuous drift monitoring.'
+    }
+  },
+  {
+    id:'D5', name:'Supervisory Governance, Compliance Agility & AI Fluency',
+    stages:{
+      1:'Compliance relies on manual, sample-based spot-checks of paper records; the firm provides no formal AI training.',
+      2:'Surveillance software scans communications using static keyword dictionaries; digital-literacy webinars are optional with low attendance.',
+      3:'A formal AI Governance Board oversees tool deployment; mandatory role-specific prompt fluency certification is required.',
+      4:'Real-time NLP engines audit 100% of communications; prompt logs, explainability, and adoption metrics are systematically tracked.',
+      5:'Algorithmic auditability is continuous via synthetic adversarial testing, with embedded prompt education from agile squads.'
+    }
+  }
+];
+
+const QUESTIONS = [
+  // D1
+  { dim:'D1', prompt:"What is the latency between a trade executing at custody and it appearing in your firm's internal book-of-record?",
+    options:[ [1,'More than 24 hours; entered manually'],[2,'Nightly batch process; under 24-hour lag'],[3,'Near real-time via API (minutes)'],[4,'Real-time streaming (under 1 minute) with automated alerts'],[5,'Sub-second, continuous synchronization'] ] },
+  { dim:'D1', prompt:'How does the firm reconcile account data across multiple custodians?',
+    options:[ [1,'Manual entry / spreadsheets'],[2,'Nightly batch ETL with manual exception handling'],[3,'Standardized API integration with automated schema mapping'],[4,'Automated real-time anomaly and validation alerting'],[5,'Self-healing pipelines that auto-correct discrepancies'] ] },
+  { dim:'D1', prompt:'When a new custodian is added, how long does data integration take?',
+    options:[ [1,'Manual file mapping; months'],[2,'Custom batch ETL build; months'],[3,'Weeks, via standardized API connectors'],[4,'Days, via event-streaming configuration'],[5,'Near-instant, via self-service data mesh'] ] },
+  { dim:'D1', prompt:'What percentage of cross-custodial account records are accessible through a single unified data layer?',
+    options:[ [1,'0% (fully siloed)'],[2,'Under 25%'],[3,'25–75%'],[4,'Over 75%, via streaming pipelines'],[5,'Approximately 100%, via a unified data mesh'] ] },
+  // D2
+  { dim:'D2', prompt:'What method does a prospective client use to open a new account?',
+    options:[ [1,'Paper forms and wet-ink signature'],[2,'Digital forms / e-signature, with manual NIGO review'],[3,'Fully digital onboarding with biometric KYC and auto-generated account'],[4,'Digital onboarding with synced sessions across channels and tracked engagement'],[5,'Conversational, AI-guided onboarding with predictive goal-planning'] ] },
+  { dim:'D2', prompt:'What percentage of new accounts are flagged Not-In-Good-Order (NIGO) and require manual remediation?',
+    options:[ [1,'Over 40%, or not tracked'],[2,'20–40%'],[3,'5–20%'],[4,'Under 5%'],[5,'Under 1%'] ] },
+  { dim:'D2', prompt:'Can a client start an application on one channel and finish on another without re-entering data?',
+    options:[ [1,'No, channels are disconnected'],[2,'Partially; some data carries over manually'],[3,'Yes, via a shared client portal'],[4,'Yes, fully synced with tracked drop-off analytics'],[5,'Yes, with predictive next-step guidance'] ] },
+  { dim:'D2', prompt:'How does the firm deliver portfolio updates and statements to clients?',
+    options:[ [1,'Static quarterly paper mailings'],[2,'Scheduled digital PDFs by email'],[3,'Interactive secure client portal'],[4,'Portal with real-time, activity-based alerts'],[5,'Hyper-personalized, conversational interface'] ] },
+  // D3
+  { dim:'D3', prompt:'How are client rebalancing decisions executed?',
+    options:[ [1,'Manual, ticket-by-ticket, discretionary'],[2,'Desktop software, calendar-based trade lists, manual approval'],[3,'Centralized system with drift-band monitoring, batch trade routing'],[4,'Automated tax-aware household rebalancing / direct indexing'],[5,'Multi-factor algorithmic engine, continuous intraday execution'] ] },
+  { dim:'D3', prompt:'How frequently are portfolios checked against target allocation, and by what method?',
+    options:[ [1,'Ad hoc, manual review'],[2,'Quarterly, scheduled manual review'],[3,'Continuous system monitoring, batch execution'],[4,'Continuous monitoring, same-day tax-aware execution'],[5,'Continuous, real-time intraday execution'] ] },
+  { dim:'D3', prompt:'What percentage of client accounts are managed via model portfolios with automated drift monitoring?',
+    options:[ [1,'0%'],[2,'Under 25%'],[3,'25–75%'],[4,'Over 75%'],[5,'Approximately 100%, with tax-loss harvesting'] ] },
+  { dim:'D3', prompt:'Does the firm systematically track tax alpha or execution slippage generated by rebalancing?',
+    options:[ [1,'Not tracked'],[2,'Tracked manually, ad hoc'],[3,'Tracked by the system, reported periodically'],[4,'Tracked automatically; tax-aware optimization built in'],[5,'Continuously monitored and dynamically optimized'] ] },
+  // D4
+  { dim:'D4', prompt:'Do advisors use AI tools as part of meeting preparation or portfolio review?',
+    options:[ [1,'None; public AI is banned or unmonitored'],[2,'Isolated pilots, ad hoc use, no enterprise data grounding'],[3,'Governed CRM copilot generates briefings/notes; mandatory human review'],[4,'Predictive ML models plus copilots evaluated for hallucination/accuracy'],[5,'Autonomous multi-agent systems run scenario modeling'] ] },
+  { dim:'D4', prompt:'How are client investment proposals typically drafted?',
+    options:[ [1,'Entirely manual, based on static vendor reports'],[2,'Ad hoc AI prompts, no enterprise data integration'],[3,'AI copilot drafts from CRM data, mandatory advisor/compliance review'],[4,'AI copilot drafts; accuracy measured against defined evaluation suites'],[5,'Multi-agent system autonomously generates and refines proposals'] ] },
+  { dim:'D4', prompt:'Does the firm use predictive models to flag clients at risk of attrition or asset outflow?',
+    options:[ [1,'No predictive models used'],[2,'Ad hoc, manual flagging by advisors'],[3,'Rules-based "next-best-action" alerts for advisor review'],[4,'ML models with measured predictive accuracy'],[5,'Continuously retrained models drive automated retention workflows'] ] },
+  { dim:'D4', prompt:'How is the accuracy of AI-generated content (meeting notes, proposals) monitored?',
+    options:[ [1,'Not monitored'],[2,'Informal, advisor self-policing'],[3,'Mandatory human review of every AI output before use'],[4,'Automated evaluation suites measure hallucination rate/accuracy in production'],[5,'Continuous production drift monitoring with automated correction'] ] },
+  // D5
+  { dim:'D5', prompt:'How does compliance monitor employee communications for regulatory risk?',
+    options:[ [1,'Manual, sample-based spot-checks of paper records'],[2,'Static keyword-dictionary scanning of email/e-comms'],[3,'Formal governance board oversight plus e-comms review'],[4,'Real-time NLP engines audit 100% of multi-channel communications'],[5,'Continuous synthetic adversarial testing of algorithmic auditability'] ] },
+  { dim:'D5', prompt:'What formal AI training do licensed advisors receive?',
+    options:[ [1,'None provided'],[2,'Optional digital-literacy webinars, low attendance'],[3,'Mandatory role-specific prompt fluency certification'],[4,'Mandatory training plus tracked adoption metrics and prompt logs'],[5,'Continuous, embedded prompt education via agile cross-functional squads'] ] },
+  { dim:'D5', prompt:'Is there a formal governance body responsible for overseeing AI tool deployment firm-wide?',
+    options:[ [1,'No oversight body exists'],[2,'No formal board; ad hoc, manager-level decisions'],[3,'Yes, a formal AI Governance Board reviews and approves tools'],[4,'Yes, and it tracks explainability, prompt logs, and adoption metrics'],[5,'Yes, and governance includes continuous adversarial testing and rapid updates'] ] },
+  { dim:'D5', prompt:'Can the firm document how a specific AI-generated recommendation was produced?',
+    options:[ [1,'No tracking or logging exists'],[2,'Minimal, inconsistent logs for some tools'],[3,'Human review is mandatory but not formally documented'],[4,'Explainability and prompt logs are systematically tracked'],[5,'Continuous adversarial testing validates explainability'] ] }
+];
+
+/* =========================================================================
+   ARCHETYPES — from Member A's Strategic Interpretation Guide.
+   Each has a match() function evaluated against the five dimension scores.
+   Checked in order; first match wins. Falls through to a generic
+   mixed-profile diagnosis if none of the five named patterns fit exactly.
+   ========================================================================= */
+
+const ARCHETYPES = [
+  {
+    name:'The Legacy Custodian', tier:'low',
+    match: s => s.D1<=2.0 && s.D2<=2.0 && s.D3<=2.0 && s.D4<=2.0 && s.D5<=2.0,
+    diagnosis:'The firm relies on physical paperwork, wet signatures, and manual Excel trade rebalancing across branches; it incurs unsustainable overhead and faces severe asset attrition as next-generation heirs transfer wealth out.',
+    actionTitle:'Priority action: Data Foundation First',
+    action:'Halt exploratory tool purchases. Direct 100% of modernization budget toward deploying an API-accessible custodial data warehouse to eliminate physical records.'
+  },
+  {
+    name:'The Scaled Frontier', tier:'high',
+    match: s => s.D1>=4.0 && s.D2>=4.0 && s.D3>=4.0 && s.D4>=4.0 && s.D5>=4.0,
+    diagnosis:'The enterprise operates as an integrated wealth engine, with automated straight-through trade clearing, continuous direct indexing, automated compliance surveillance, and pervasive employee AI fluency.',
+    actionTitle:'Priority action: Platform Monetization',
+    action:'Commercialize internal operational IP by licensing proprietary direct-indexing algorithms and advisory copilot APIs to unaffiliated third-party RIAs.'
+  },
+  {
+    name:'The Structural Bottleneck', tier:'mid',
+    match: s => s.D1<=2.0 && s.D2>=3.5 && s.D3>=3.5 && s.D4>=3.5 && s.D5>=3.5,
+    diagnosis:'Modern client portals and predictive advisor copilots run on fragmented, 24-hour-delayed custodial databases; manual re-keying between systems drives high Not-In-Good-Order (NIGO) error rates.',
+    actionTitle:'Priority action: Architectural Remediation',
+    action:'Freeze client-facing feature rollouts. Construct real-time event-streaming pipelines (e.g., Kafka) to normalize and unify multi-custodial account records.'
+  },
+  {
+    name:'The Digitalized Stagnator', tier:'mid',
+    match: s => s.D2>=4.0 && s.D4<=2.0,
+    diagnosis:'Polished mobile apps mask completely manual advisory routines; advisors waste a large share of their working hours on administrative meeting prep, manual CRM entry, and static portfolio reviews.',
+    actionTitle:'Priority action: Advisor Capacity Unlock',
+    action:'Deploy an enterprise-governed client meeting summarization and portfolio next-best-action copilot to recover 5–10 hours of weekly advisory capacity.'
+  },
+  {
+    name:'The Strategy-Execution Chasm', tier:'mid',
+    match: s => s.D5<=2.0 && s.D1>=3.5 && s.D2>=3.5 && s.D3>=3.5 && s.D4>=3.5,
+    diagnosis:'Advanced platforms are licensed, but advisors resist adoption, lack prompt fluency, or bypass controls with unvetted consumer AI tools; expensive technology assets sit underutilized.',
+    actionTitle:'Priority action: Adoption & Governance Sprint',
+    action:'Formalize an AI Governance Committee, establish mandatory role-based prompt fluency certification, and link advisor incentives directly to platform adoption.'
+  }
+];
+
+/* =========================================================================
+   STATE + RENDERING
+   ========================================================================= */
+
+let currentIndex = 0;
+const answers = {}; // questionIndex -> value 1-5
+
+const introList = document.getElementById('intro-dim-list');
+DIMENSIONS.forEach(d=>{
+  const li = document.createElement('li');
+  li.innerHTML = `<span class="icon-badge">${ICONS[d.id]}</span><span class="txt-wrap"><span class="txt">${d.name}</span><span class="tag">${d.id}</span></span>`;
+  introList.appendChild(li);
+});
+
+document.getElementById('btn-start').addEventListener('click', ()=>{
+  document.getElementById('screen-intro').classList.add('hidden');
+  document.getElementById('screen-quiz').classList.remove('hidden');
+  renderRail();
+  renderQuestion();
+});
+
+function renderRail(){
+  const rail = document.getElementById('quiz-rail');
+  const currentDim = QUESTIONS[currentIndex].dim;
+  const answeredDims = new Set(Object.keys(answers).map(i=>QUESTIONS[i].dim));
+  rail.innerHTML = '';
+  DIMENSIONS.forEach(d=>{
+    const div = document.createElement('div');
+    let cls = 'rail-item';
+    if(d.id===currentDim) cls += ' active';
+    else if(answeredDims.has(d.id)) cls += ' done';
+    div.className = cls;
+    div.innerHTML = `<span class="icon">${ICONS[d.id]}</span>${d.id} — ${d.name}`;
+    rail.appendChild(div);
+  });
+}
+
+function renderQuestion(){
+  const q = QUESTIONS[currentIndex];
+  const dim = DIMENSIONS.find(d=>d.id===q.dim);
+  const posInDim = QUESTIONS.slice(0,currentIndex+1).filter(x=>x.dim===q.dim).length;
+
+  document.getElementById('progress-fill').style.width = `${(currentIndex/QUESTIONS.length)*100}%`;
+  document.getElementById('q-progress').textContent = `Question ${currentIndex+1} of ${QUESTIONS.length}`;
+  document.getElementById('q-dim-label').textContent = `${dim.id} — ${dim.name} (${posInDim} of 4)`;
+  document.getElementById('q-prompt').textContent = q.prompt;
+  document.getElementById('q-prompt').classList.remove('q-fade');
+  void document.getElementById('q-prompt').offsetWidth; // restart animation
+  document.getElementById('q-prompt').classList.add('q-fade');
+
+  const optWrap = document.getElementById('q-options');
+  optWrap.innerHTML = '';
+  q.options.forEach(([val,text])=>{
+    const label = document.createElement('label');
+    const isChecked = answers[currentIndex]===val;
+    label.className = 'option' + (isChecked ? ' selected' : '');
+    label.innerHTML = `<input type="radio" name="opt" value="${val}" ${isChecked?'checked':''}>
+      <span class="opt-val mono">${val}</span><span class="opt-text">${text}</span>`;
+    label.addEventListener('click', ()=>{
+      answers[currentIndex] = val;
+      optWrap.querySelectorAll('.option').forEach(o=>o.classList.remove('selected'));
+      label.classList.add('selected');
+      document.getElementById('btn-next').disabled = false;
+    });
+    optWrap.appendChild(label);
+  });
+
+  document.getElementById('btn-back').disabled = currentIndex===0;
+  document.getElementById('btn-next').disabled = answers[currentIndex]===undefined;
+  document.getElementById('btn-next').textContent = currentIndex===QUESTIONS.length-1 ? 'See results' : 'Next';
+  renderRail();
+}
+
+document.getElementById('btn-back').addEventListener('click', ()=>{
+  if(currentIndex>0){ currentIndex--; renderQuestion(); }
+});
+
+document.getElementById('btn-next').addEventListener('click', ()=>{
+  if(currentIndex < QUESTIONS.length-1){
+    currentIndex++;
+    renderQuestion();
+  } else {
+    document.getElementById('progress-fill').style.width = '100%';
+    showResults();
+  }
+});
+
+document.getElementById('btn-restart').addEventListener('click', ()=>{
+  currentIndex = 0;
+  Object.keys(answers).forEach(k=>delete answers[k]);
+  if(radarChartInstance){ radarChartInstance.destroy(); radarChartInstance = null; }
+  document.getElementById('screen-results').classList.add('hidden');
+  document.getElementById('screen-intro').classList.remove('hidden');
+});
+
+/* =========================================================================
+   SCORING
+   Dimension score = average of that dimension's 4 answer values (1–5),
+   rounded to one decimal. Ties among lowest-scoring dimensions are broken
+   by dimension order (D1 before D2 ... before D5), since the framework
+   defines no other precedence and a stable, documented rule is required
+   for repeatable results.
+   ========================================================================= */
+
+function computeScores(){
+  const scores = {};
+  DIMENSIONS.forEach(d=>{
+    const vals = QUESTIONS
+      .map((q,i)=>({q,i}))
+      .filter(({q})=>q.dim===d.id)
+      .map(({i})=>answers[i]);
+    const avg = vals.reduce((a,b)=>a+b,0) / vals.length;
+    scores[d.id] = Math.round(avg*10)/10;
+  });
+  return scores;
+}
+
+// Returns the dimensions tied for the two lowest scores. Ordinary case:
+// exactly two. If the dimension in 2nd-lowest place ties in score with a
+// 3rd, 4th, etc. dimension, all of them are included — a same-order
+// tiebreak that silently drops a tied dimension (e.g. picking D2 over an
+// equally-low D5 just because D2 comes first) would violate the
+// requirement that ties for the lowest slot are all displayed.
+function twoLowestDimensions(scores){
+  const sorted = DIMENSIONS
+    .map(d=>({id:d.id, score:scores[d.id]}))
+    .sort((a,b)=> a.score-b.score);
+  const threshold = sorted[1].score; // the 2nd-lowest score value
+  return sorted
+    .filter(d => d.score <= threshold)
+    .sort((a,b)=> DIMENSIONS.findIndex(d=>d.id===a.id) - DIMENSIONS.findIndex(d=>d.id===b.id));
+}
+
+function matchArchetype(scores){
+  for(const a of ARCHETYPES){ if(a.match(scores)) return a; }
+  return null;
+}
+
+// Color-codes a dimension score using the same 2.0 / 3.5 cut points the
+// archetypes themselves are built on, so the color coding on the score
+// bars and focus cards means the same thing the diagnosis text means —
+// not a decorative gradient.
+function severityColor(score){
+  if(score < 2.0) return 'var(--warn)';
+  if(score >= 3.5) return 'var(--good)';
+  return 'var(--brass)';
+}
+function severityHex(score){
+  if(score < 2.0) return '#a13f2f';
+  if(score >= 3.5) return '#2f5d54';
+  return '#8a6a30';
+}
+
+let radarChartInstance = null;
+
+function showResults(){
+  const scores = computeScores();
+  const archetype = matchArchetype(scores);
+  const lowest = twoLowestDimensions(scores);
+
+  document.getElementById('screen-quiz').classList.add('hidden');
+  document.getElementById('screen-results').classList.remove('hidden');
+
+  const heroEl = document.getElementById('result-hero');
+  heroEl.className = 'result-hero' + (archetype ? ` tier-${archetype.tier==='high'?'high':archetype.tier==='low'?'low':'mid'}` : '');
+
+  const lowestNames = lowest.map(l => DIMENSIONS.find(d=>d.id===l.id).name);
+  const lowestLabel = lowest.length > 2 ? 'Lowest-scoring dimensions (tied)' : 'Two lowest-scoring dimensions';
+  const lowestListHtml = lowest
+    .map((l,i) => `<strong>${lowestNames[i]}</strong> (${l.score.toFixed(1)})`)
+    .join(lowest.length > 2 ? ', ' : ' and ')
+    .replace(/, ([^,]*)$/, lowest.length > 2 ? ', and $1' : ', $1'); // oxford comma for 3+
+  document.getElementById('res-lowest-line').innerHTML = `${lowestLabel}: ${lowestListHtml}.`;
+
+  if(archetype){
+    document.getElementById('res-name').textContent = archetype.name;
+    document.getElementById('res-diagnosis').textContent = archetype.diagnosis;
+    document.getElementById('res-action-title').textContent = archetype.actionTitle;
+    document.getElementById('res-action-body').textContent = archetype.action;
+  } else {
+    const namesJoined = lowestNames.length > 2
+      ? lowestNames.slice(0,-1).join(', ') + ', and ' + lowestNames[lowestNames.length-1]
+      : lowestNames.join(' and ');
+    document.getElementById('res-name').textContent = 'Mixed / Transitional Profile';
+    document.getElementById('res-diagnosis').textContent =
+      "This firm's scores don't cluster into one of the five named archetypes — capability is uneven across dimensions rather than following a single structural pattern. The dimensions below are holding back overall maturity the most and are the most productive place to focus first.";
+    document.getElementById('res-action-title').textContent = 'Priority action: Close the weakest dimensions';
+    document.getElementById('res-action-body').textContent =
+      `Concentrate the next planning cycle on ${namesJoined} before investing further in already-stronger dimensions — an uneven profile compounds operational and regulatory risk faster than a uniformly low one.`;
+  }
+
+  // Score table
+  const table = document.getElementById('score-table');
+  table.innerHTML = '';
+  DIMENSIONS.forEach(d=>{
+    const score = scores[d.id];
+    const pct = (score/5)*100;
+    const row = document.createElement('div');
+    row.className = 'score-row';
+    row.innerHTML = `
+      <span class="tag">${d.id}</span>
+      <span class="label">${d.name}</span>
+      <span class="val mono" style="color:${severityColor(score)}">${score.toFixed(1)}</span>
+      <div class="bar-track"><div class="bar-fill" style="width:0%; background:${severityColor(score)}"></div></div>
+    `;
+    table.appendChild(row);
+    requestAnimationFrame(()=>{ row.querySelector('.bar-fill').style.width = pct + '%'; });
+  });
+
+  // Focus cards for the two lowest dimensions, using the next stage up
+  // from the framework's stage descriptions as the improvement target.
+  const focusGrid = document.getElementById('focus-grid');
+  focusGrid.innerHTML = '';
+  lowest.forEach(({id,score})=>{
+    const dim = DIMENSIONS.find(d=>d.id===id);
+    const currentStage = Math.min(5, Math.max(1, Math.round(score)));
+    const nextStage = Math.min(5, currentStage+1);
+    const color = severityColor(score);
+    const card = document.createElement('div');
+    card.className = 'focus-card';
+    card.style.borderTopColor = color;
+    card.innerHTML = `
+      <div class="fc-tag" style="color:${color}">Focus area · ${id} — score ${score.toFixed(1)}</div>
+      <h4>${dim.name}</h4>
+      <p><strong>Current state (Stage ${currentStage}):</strong> ${dim.stages[currentStage]}</p>
+      <p style="margin-top:8px;"><strong>Next stage (Stage ${nextStage}):</strong> ${dim.stages[nextStage]}</p>
+    `;
+    focusGrid.appendChild(card);
+  });
+
+  renderRadarChart(scores, archetype);
+}
+
+function wrapLabel(name){
+  const words = name.split(' ');
+  const mid = Math.ceil(words.length/2);
+  return [ words.slice(0,mid).join(' '), words.slice(mid).join(' ') ];
+}
+
+function hexToRgba(hex, alpha){
+  const n = parseInt(hex.slice(1), 16);
+  const r = (n >> 16) & 255, g = (n >> 8) & 255, b = n & 255;
+  return `rgba(${r},${g},${b},${alpha})`;
+}
+
+function renderRadarChart(scores, archetype, isRetry){
+  const canvas = document.getElementById('radarChart');
+  const fallback = document.getElementById('chart-fallback');
+
+  if(typeof Chart === 'undefined'){
+    if(!isRetry){
+      // Chart.js (or its fallback CDN) may still be mid-download; give it
+      // one short beat before concluding it truly failed to load.
+      setTimeout(()=>renderRadarChart(scores, archetype, true), 600);
+      return;
+    }
+    canvas.style.display = 'none';
+    fallback.style.display = 'block';
+    return;
+  }
+  canvas.style.display = 'block';
+  fallback.style.display = 'none';
+
+  // The chart's own color follows the overall archetype tier (green for
+  // Scaled Frontier, red for Legacy Custodian, brass otherwise) so the
+  // shape and the diagnosis text read as one visual, not two disconnected
+  // widgets.
+  const tierHex = archetype
+    ? (archetype.tier==='high' ? '#2f5d54' : archetype.tier==='low' ? '#a13f2f' : '#8a6a30')
+    : '#8a6a30';
+
+  const ctx = canvas.getContext('2d');
+  if(radarChartInstance) radarChartInstance.destroy();
+  radarChartInstance = new Chart(ctx, {
+    type:'radar',
+    data:{
+      labels: DIMENSIONS.map(d=>wrapLabel(d.name)),
+      datasets:[{
+        label:'Dimension score',
+        data: DIMENSIONS.map(d=>scores[d.id]),
+        backgroundColor: hexToRgba(tierHex, 0.2),
+        borderColor: tierHex,
+        pointBackgroundColor: tierHex,
+        pointRadius:4,
+        borderWidth:2
+      }]
+    },
+    options:{
+      responsive:true,
+      maintainAspectRatio:false,
+      plugins:{ legend:{ display:false } },
+      scales:{
+        r:{
+          min:0, max:5, ticks:{ stepSize:1, showLabelBackdrop:false, color:'#51606e' },
+          grid:{ color:'#ddd5c0' },
+          angleLines:{ color:'#ddd5c0' },
+          pointLabels:{ color:'#182531', font:{ size:12, family:'IBM Plex Sans' } }
+        }
+      }
+    }
+  });
+}
+</script>
+</body>
+</html>
